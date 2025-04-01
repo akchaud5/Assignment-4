@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Hotels xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Hotels.xsd">
+  <Hotel Rating="4.2">
+    <Name>Westin</Name>
+    <Phone>800-937-8461</Phone>
+    <Phone>480-968-8885</Phone>
+    <Address NearestAirport="Sky Harbor">
+      <Number>11</Number>
+      <Street>E.7th St</Street>
+      <City>Tempe</City>
+      <State>AZ</State>
+      <Zip>85281</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="4.5">
+    <Name>Marriott Phoenix Downtown</Name>
+    <Phone>602-254-8400</Phone>
+    <Address NearestAirport="Sky Harbor">
+      <Number>100</Number>
+      <Street>N 1st St</Street>
+      <City>Phoenix</City>
+      <State>AZ</State>
+      <Zip>85004</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="4.7">
+    <Name>The Ritz-Carlton</Name>
+    <Phone>480-941-8200</Phone>
+    <Phone>800-542-8680</Phone>
+    <Address>
+      <Number>2401</Number>
+      <Street>E Camelback Rd</Street>
+      <City>Phoenix</City>
+      <State>AZ</State>
+      <Zip>85016</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="3.9">
+    <Name>Hampton Inn Phoenix Airport</Name>
+    <Phone>602-244-8080</Phone>
+    <Address NearestAirport="Sky Harbor">
+      <Number>3625</Number>
+      <Street>E Baseline Rd</Street>
+      <City>Phoenix</City>
+      <State>AZ</State>
+      <Zip>85042</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="4.3">
+    <Name>Hilton Scottsdale Resort</Name>
+    <Phone>480-948-7750</Phone>
+    <Address>
+      <Number>6333</Number>
+      <Street>N Scottsdale Rd</Street>
+      <City>Scottsdale</City>
+      <State>AZ</State>
+      <Zip>85250</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="4.4">
+    <Name>Grand Hyatt San Francisco</Name>
+    <Phone>415-398-1234</Phone>
+    <Phone>888-591-1234</Phone>
+    <Address NearestAirport="SFO">
+      <Number>345</Number>
+      <Street>Stockton St</Street>
+      <City>San Francisco</City>
+      <State>CA</State>
+      <Zip>94108</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="4.6">
+    <Name>Four Seasons Resort Scottsdale</Name>
+    <Phone>480-515-5700</Phone>
+    <Address>
+      <Number>10600</Number>
+      <Street>E Crescent Moon Dr</Street>
+      <City>Scottsdale</City>
+      <State>AZ</State>
+      <Zip>85262</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="3.8">
+    <Name>Courtyard by Marriott Tempe</Name>
+    <Phone>480-966-2800</Phone>
+    <Address NearestAirport="Sky Harbor">
+      <Number>601</Number>
+      <Street>S Ash Ave</Street>
+      <City>Tempe</City>
+      <State>AZ</State>
+      <Zip>85281</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="4.1">
+    <Name>Embassy Suites Phoenix Biltmore</Name>
+    <Phone>602-955-3992</Phone>
+    <Address>
+      <Number>2630</Number>
+      <Street>E Camelback Rd</Street>
+      <City>Phoenix</City>
+      <State>AZ</State>
+      <Zip>85016</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="4.0">
+    <Name>Sheraton Grand Phoenix</Name>
+    <Phone>602-262-2500</Phone>
+    <Phone>800-325-3535</Phone>
+    <Address NearestAirport="Sky Harbor">
+      <Number>340</Number>
+      <Street>N 3rd St</Street>
+      <City>Phoenix</City>
+      <State>AZ</State>
+      <Zip>85004</Zip>
+    </Address>
+  </Hotel>
+  <Hotel Rating="3.7">
+    <Name>DoubleTree by Hilton Phoenix</Name>
+    <Phone>602-225-0500</Phone>
+    <Address>
+      <Number>320</Number>
+      <Street>N 44th St</Street>
+      <City>Phoenix</City>
+      <State>AZ</State>
+      <Zip>85008</Zip>
+    </Address>
+  </Hotel>
+</Hotels>
