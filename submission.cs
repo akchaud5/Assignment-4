@@ -13,9 +13,9 @@ namespace ConsoleApp1
     public class Program
     {
         // These URLs will be read by the autograder, please keep the variable name un-changed and link to the correct xml/xsd files.
-        public static string xmlURL = "https://akchaud5.github.io/Assignment-4/Hotels.xml"; 
-        public static string xmlErrorURL = "https://akchaud5.github.io/Assignment-4/HotelsErrors.xml"; 
-        public static string xsdURL = "https://akchaud5.github.io/Assignment-4/Hotels.xsd"; 
+        public static string xmlURL = "https://xml-hosting-puqe7r360-ayushs-projects-0e853323.vercel.app/Hotels.xml"; 
+        public static string xmlErrorURL = "https://xml-hosting-puqe7r360-ayushs-projects-0e853323.vercel.app/HotelsErrors.xml"; 
+        public static string xsdURL = "https://xml-hosting-puqe7r360-ayushs-projects-0e853323.vercel.app/Hotels.xsd"; 
 
         public static void Main(string[] args)
         {
