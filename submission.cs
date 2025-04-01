@@ -111,8 +111,8 @@ namespace ConsoleApp1
                         hotelDict["Rating"] = rating;
                     }
                     
-                    // Add Name element
-                    hotelDict["Name"] = hotel.Element("Name")?.Value;
+                    // Add Name element (could be either 'Name' or 'n' in the XML)
+                    hotelDict["Name"] = hotel.Element("Name")?.Value ?? hotel.Element("n")?.Value;
                     
                     // Add Phone elements (could be multiple)
                     var phones = hotel.Elements("Phone").Select(p => p.Value).ToList();
