@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Hotel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Hotels.xsd">
   <Hotel Rating="4.2">
-    <Name>Westin</Name>
+    <n>Westin</n>
     <Phone>800-937-8461</Phone>
     <Phone>480-968-8885</Phone>
     <Address NearestAirport="Sky Harbor">
@@ -13,9 +13,9 @@
     </Address>
   </Hotel>
   <Hotel>
-    <Name>Marriott Phoenix Downtown</Name>
+    <n>Marriott Phoenix Downtown</n>
     <Phone>602-254-8400</Phone>
-    <Address NearestAirport="Sky Harbor">
+    <Address NearstAirport="Sky Harbor">
       <Number>100</Number>
       <Street>N 1st St</Street>
       <City>Phoenix</City>
@@ -25,7 +25,6 @@
   </Hotel>
   <Hotel Rating="4.7">
     <Name>The Ritz-Carlton</Name>
-    <Name>The Ritz</Name>
     <Phone>480-941-8200</Phone>
     <Phone>800-542-8680</Phone>
     <Address>
@@ -34,27 +33,6 @@
       <City>Phoenix</City>
       <State>AZ</State>
       <Zip>85016</Zip>
-    </Address>
-  </Hotel>
-  <Hotel Rating="3.9">
-    <Name>Hampton Inn Phoenix Airport</Name>
-    <Address NearestAirport="Sky Harbor">
-      <Number>3625</Number>
-      <Street>E Baseline Rd</Street>
-      <City>Phoenix</City>
-      <State>AZ</State>
-      <Zip>85042</Zip>
-    </Address>
-  </Hotel>
-  <Hotel Rating="4.3">
-    <Name>Hilton Scottsdale Resort</Name>
-    <Phone>480-948-7750</Phone>
-    <Address
-      <Number>6333</Number>
-      <Street>N Scottsdale Rd</Street>
-      <City>Scottsdale</City>
-      <State>AZ</State>
-      <Zip>85250</Zip>
     </Address>
   </Hotel>
 </Hotel>
