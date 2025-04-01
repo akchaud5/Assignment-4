@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Hotel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Hotels.xsd">
   <Hotel Rating="4.2">
-    <n>Westin</n>
+    <Name>Westin</Name>
     <Phone>800-937-8461</Phone>
     <Phone>480-968-8885</Phone>
     <Address NearestAirport="Sky Harbor">
@@ -13,7 +13,7 @@
     </Address>
   </Hotel>
   <Hotel>
-    <n>Marriott Phoenix Downtown</n>
+    <Name>Marriott Phoenix Downtown</Name>
     <Phone>602-254-8400</Phone>
     <Address NearstAirport="Sky Harbor">
       <Number>100</Number>
