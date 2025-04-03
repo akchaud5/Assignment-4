@@ -1,0 +1,73 @@
+Frequently Asked Questions and the Answers Related to Gradescope CSE445/446/598
+Q.
+I received the error message: "The autograder failed to execute correctly. Please ensure that
+your submission is valid. Contact your course staff for help in debugging this issue. Make sure
+to include a link to this page so that they can help you most effectively."
+A.
+The problem is frequently related to one of the following issues:
+• A variable name or function name is spelled differently (case sensitive) from the name
+specified in the given template;
+• Check the spelling of attributes and elements, ensuring they match the instructions
+provided.
+• The submission file name is spelled differently (case sensitive) from the name specified
+in the assignment document;
+• The versions of Visual Studio and .Net Framework are different from the ones specified
+in the assignment document.
+Please check if you have one of the above situations. The following is an example where the
+names are used differently.
+You have a few functions and variable names are different from the template. The names are
+case sensitive. For example: "pricingModel" V.S. "PricingModel"; "GetSenderId" V.S.
+"getSenderId", and more . You are suggested to begin with the given code template. You do not
+modify any existing function/ variable/ class names.
+Q.
+Hello, I am having issues with Gradescope on my assignment. I downloaded the template file
+and edited to submit. When I submit to gradescope I get this message, "The autograder failed to
+execute correctly. Please ensure that your submission is valid. Contact your course staff for
+help in debugging this issue. Make sure to include a link to this page so that they can help you
+most effectively."
+Is it because I downloaded the template file instead of creating my own file?
+A.
+Your program does not compile on local computer. You have an Unexpected symbol `0'
+Please make sure your program pass the compiler on your local computer before submitting to
+Gradescope.
+Q.
+The autograder failed to execute correctly. Please ensure that your submission is valid. Contact
+your course staff for help in debugging this issue. Make sure to include a link to this page so
+that they can help you most effectively."
+A.
+You have a few functions and variable names are different from the template. The names are
+case sensitive. For example: "pricingModel" V.S. "PricingModel"; "GetSenderId" V.S.
+"getSenderId", and more .
+You are suggested to begin with the given code template. You do not modify any existing
+function/ variable/ class names.
+Q
+Can a Mac user use other IDE to develop the C# used for gradescope:
+A
+Here is a student’s recommendation:
+If anyone using a Mac wonders how to solve this assignment without needing to install a
+VM, I'd recommend you all using mono (https://www.mono-project.com/). Although it's not
+possible to compile .NET version 4.7 in macOS, installing mono helps you to compile your
+app in the version you wrote in your .csproj file. the best thing is that you could get the
+errors and troubleshoot accordingly. In my case I just developed in older version possible,
+ran with errors and adjust the program according to the 4.7 version. Autograder passed my
+code without any hassle.
+Q:
+Is the autograder giving anyone else issues? Everything runs fine on my end, but the
+autograder fails to execute and gives me a generic error.
+A:
+Please remove any unnecessary or unused namespace inclusions.
+Q:
+For the XSD file definition, can I define my own phoneType and provid a pattern for it;
+A: No. The type may not be true for all phone numbers. You may simply use a string type for
+it.
+Also, for integer type, you should simply use "int" instead of "positiveInteger" in your xsd
+file.
+Q:
+I have tried multiple times to rewrite the code, but for some reason, I am not able to figure
+out my failing test cases because Gradescope doesn't give information, and my dry runs of
+the code do seem to work. Only these 2 test cases are failing. Can you please help me in
+what exactly are these looking for?
+A:
+I had the same error today. What I did to fix the xsd was follow the Courses.xsd example
+and formatted my stuff in a similar manner. Then in my .xml file I added
+xsi:schemaLocation with the location of the xsd file
