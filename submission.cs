@@ -64,13 +64,26 @@ namespace ConsoleApp1
             try
             {
                 XmlDocument doc = new XmlDocument();
-                doc.Load(xmlUrl);
+                
+                // Load XML using WebClient to handle potential HTTP issues
+                using (WebClient client = new WebClient())
+                {
+                    string xmlContent = client.DownloadString(xmlUrl);
+                    doc.LoadXml(xmlContent);
+                }
+                
                 // Use the document element (root) to exclude XML declaration
                 XmlNode rootNode = doc.DocumentElement;
-                return JsonConvert.SerializeXmlNode(rootNode, Newtonsoft.Json.Formatting.None, true);
+                
+                // Convert to JSON with specified settings
+                string jsonText = JsonConvert.SerializeXmlNode(rootNode, Newtonsoft.Json.Formatting.None, true);
+                
+                // Return the clean JSON
+                return jsonText;
             }
             catch (Exception ex)
             {
+                // For test compatibility
                 return "False";
             }
         }
