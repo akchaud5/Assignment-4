@@ -67,7 +67,7 @@ namespace ConsoleApp1
             }
             catch (Exception ex)
             {
-                return $"Error converting XML to JSON: {ex.Message}";
+                return "False";
             }
         }
     }
