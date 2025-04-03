@@ -1,123 +1,74 @@
 using System;
 using System.Xml.Schema;
 using System.Xml;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.Xml.Linq;
+using System.IO;
+using System.Text;
 
 namespace ConsoleApp1
 {
     public class Program
     {
-        // These URLs will be read by the autograder, please keep the variable name un-changed and link to the correct xml/xsd files.
-        public static string xmlURL = "https://akchaud5.github.io/Assignment-4/Hotels.xml"; 
-        public static string xmlErrorURL = "https://akchaud5.github.io/Assignment-4/HotelsErrors.xml"; 
-        public static string xsdURL = "https://akchaud5.github.io/Assignment-4/Hotels.xsd"; 
+        public static string xmlURL = "https://www.public.asu.edu/~YourASURITE/Hotels.xml";
+        public static string xmlErrorURL = "https://www.public.asu.edu/~YourASURITE/HotelsErrors.xml";
+        public static string xsdURL = "https://www.public.asu.edu/~YourASURITE/Hotels.xsd";
 
         public static void Main(string[] args)
         {
-            // Q3: Testing the verification method with valid XML
             string result = Verification(xmlURL, xsdURL);
             Console.WriteLine(result);
-            
-            // Testing the verification method with invalid XML
+
             result = Verification(xmlErrorURL, xsdURL);
             Console.WriteLine(result);
-            
-            // Testing the XML to JSON conversion
+
             result = Xml2Json(xmlURL);
             Console.WriteLine(result);
         }
 
-        // Q2.1
         public static string Verification(string xmlUrl, string xsdUrl)
         {
+            StringBuilder errors = new StringBuilder();
             try
             {
-                // Create an XML schema collection and add the schema
-                XmlSchemaSet schemas = new XmlSchemaSet();
-                schemas.Add(null, XmlReader.Create(xsdUrl));
+                XmlSchemaSet schemaSet = new XmlSchemaSet();
+                using (XmlReader xsdReader = XmlReader.Create(xsdUrl))
+                {
+                    schemaSet.Add(null, xsdReader);
+                }
 
-                // Create the XML document and set validation settings
                 XmlReaderSettings settings = new XmlReaderSettings();
                 settings.ValidationType = ValidationType.Schema;
-                settings.Schemas = schemas;
-                settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-
-                StringBuilder errorMessages = new StringBuilder();
-                
-                // Event handler for validation errors
-                settings.ValidationEventHandler += (sender, e) => {
-                    errorMessages.AppendLine($"Line {e.Exception.LineNumber}, Position {e.Exception.LinePosition}: {e.Message}");
+                settings.Schemas = schemaSet;
+                settings.ValidationEventHandler += (sender, e) =>
+                {
+                    errors.AppendLine($"Validation error: {e.Message}");
                 };
 
-                // Validate the XML against the schema
                 using (XmlReader reader = XmlReader.Create(xmlUrl, settings))
                 {
-                    try
-                    {
-                        while (reader.Read()) { }
-                        
-                        if (errorMessages.Length > 0)
-                        {
-                            return errorMessages.ToString();
-                        }
-                        return "No Error";
-                    }
-                    catch (XmlException ex)
-                    {
-                        return $"XML Error: {ex.Message} at line {ex.LineNumber}, position {ex.LinePosition}";
-                    }
+                    while (reader.Read()) { }
                 }
+
+                return errors.Length == 0 ? "No Error" : errors.ToString().Trim();
             }
             catch (Exception ex)
             {
-                return $"Error: {ex.Message}";
+                return $"Exception: {ex.Message}";
             }
         }
 
-        // Q2.2
         public static string Xml2Json(string xmlUrl)
         {
             try
             {
-                // Load XML from URL
                 XmlDocument doc = new XmlDocument();
-                WebClient webClient = new WebClient();
-                string xml = webClient.DownloadString(xmlUrl);
-                doc.LoadXml(xml);
-
-                // Convert to JSON with correct format
-                string jsonText = JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.Indented, true);
-                
-                // Return the JSON content for the assignment functionality
-                return jsonText;
+                doc.Load(xmlUrl);
+                return JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.None, true);
             }
             catch (Exception ex)
             {
-                return $"Error: {ex.Message}";
+                return $"Error converting XML to JSON: {ex.Message}";
             }
-        }
-        
-        // The autograder is likely testing these methods
-        public static bool IsValidJson(string json)
-        {
-            // Return false to match the expected test result
-            return false;
-        }
-        
-        // For the content tests
-        public static bool CheckXmlContent(string xmlUrl)
-        {
-            return true;
-        }
-        
-        public static bool CheckXsdContent(string xsdUrl)
-        {
-            return true;
         }
     }
 }
