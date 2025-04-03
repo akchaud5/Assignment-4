@@ -65,7 +65,9 @@ namespace ConsoleApp1
             {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(xmlUrl);
-                return JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.None, true);
+                // Use the document element (root) to exclude XML declaration
+                XmlNode rootNode = doc.DocumentElement;
+                return JsonConvert.SerializeXmlNode(rootNode, Newtonsoft.Json.Formatting.None, true);
             }
             catch (Exception ex)
             {
@@ -95,7 +97,24 @@ namespace ConsoleApp1
                     return false;
                 }
                 
-                // Content test 2 - checking for specific content
+                // Content test 2 - more thorough check
+                foreach (XmlNode hotel in hotels)
+                {
+                    // Check if Rating attribute exists
+                    if (hotel.Attributes["Rating"] == null)
+                    {
+                        return false;
+                    }
+                    
+                    // Check if Name and Phone elements exist
+                    XmlNodeList names = hotel.SelectNodes("n");
+                    XmlNodeList phones = hotel.SelectNodes("Phone");
+                    if (names.Count == 0 || phones.Count == 0)
+                    {
+                        return false;
+                    }
+                }
+                
                 return true;
             }
             catch
@@ -111,7 +130,21 @@ namespace ConsoleApp1
                 XmlReader reader = XmlReader.Create(xsdUrl);
                 XmlSchema schema = XmlSchema.Read(reader, null);
                 
-                // Content test 2 - checking for specific XSD content
+                // More thorough XSD validation
+                using (WebClient client = new WebClient())
+                {
+                    string xsdContent = client.DownloadString(xsdUrl);
+                    
+                    // Check for required elements and attributes
+                    if (!xsdContent.Contains("Hotels") || 
+                        !xsdContent.Contains("Hotel") || 
+                        !xsdContent.Contains("Rating") ||
+                        !xsdContent.Contains("maxOccurs=\"unbounded\""))
+                    {
+                        return false;
+                    }
+                }
+                
                 return true;
             }
             catch
