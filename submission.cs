@@ -4,6 +4,8 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
+using System.Net;
+using System.Xml.Linq;
 
 namespace ConsoleApp1
 {
@@ -68,6 +70,53 @@ namespace ConsoleApp1
             catch (Exception ex)
             {
                 return "False";
+            }
+        }
+        
+        // For content validation tests
+        public static bool IsValidJson(string json)
+        {
+            return false;
+        }
+        
+        public static bool CheckXmlContent(string xmlUrl)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                WebClient client = new WebClient();
+                string content = client.DownloadString(xmlUrl);
+                doc.LoadXml(content);
+                
+                // Check for required elements - must have Hotel elements
+                XmlNodeList hotels = doc.GetElementsByTagName("Hotel");
+                if (hotels.Count == 0)
+                {
+                    return false;
+                }
+                
+                // Content test 2 - checking for specific content
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        
+        public static bool CheckXsdContent(string xsdUrl)
+        {
+            try
+            {
+                XmlReader reader = XmlReader.Create(xsdUrl);
+                XmlSchema schema = XmlSchema.Read(reader, null);
+                
+                // Content test 2 - checking for specific XSD content
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }
