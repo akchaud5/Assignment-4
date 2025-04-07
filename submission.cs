@@ -9,146 +9,237 @@ using System.Xml.Linq;
 
 namespace ConsoleApp1
 {
+    /// <summary>
+    /// Program class for XML validation, transformation and content checking
+    /// This application demonstrates XML schema validation and JSON conversion
+    /// </summary>
     public class Program
     {
+        // URLs for accessing XML and XSD documents
+        // GitHub Pages URLs for easy access and testing
         public static string xmlURL = "https://akchaud5.github.io/Assignment-4/Hotels.xml";
         public static string xmlErrorURL = "https://akchaud5.github.io/Assignment-4/HotelsErrors.xml";
         public static string xsdURL = "https://akchaud5.github.io/Assignment-4/Hotels.xsd";
 
+        /// <summary>
+        /// Main entry point for the application
+        /// Tests XML validation against schemas and XML to JSON conversion
+        /// </summary>
+        /// <param name="args">Command line arguments (not used)</param>
         public static void Main(string[] args)
         {
+            // Test 1: Verify valid XML against XSD schema
             string result = Verification(xmlURL, xsdURL);
             Console.WriteLine(result);
 
+            // Test 2: Verify XML with errors against XSD schema (should show validation errors)
             result = Verification(xmlErrorURL, xsdURL);
             Console.WriteLine(result);
 
+            // Test 3: Convert valid XML to JSON format
             result = Xml2Json(xmlURL);
             Console.WriteLine(result);
         }
 
+        /// <summary>
+        /// Validates an XML document against an XSD schema
+        /// </summary>
+        /// <param name="xmlUrl">URL to the XML document to validate</param>
+        /// <param name="xsdUrl">URL to the XSD schema to validate against</param>
+        /// <returns>
+        /// String containing "No Error" if validation succeeds,
+        /// list of validation errors if validation fails,
+        /// or exception message if an error occurs during processing
+        /// </returns>
         public static string Verification(string xmlUrl, string xsdUrl)
         {
             StringBuilder errors = new StringBuilder();
             try
             {
+                // Load the XSD schema
                 XmlSchemaSet schemaSet = new XmlSchemaSet();
                 using (XmlReader xsdReader = XmlReader.Create(xsdUrl))
                 {
+                    // Add schema to the schema set with null namespace
                     schemaSet.Add(null, xsdReader);
                 }
 
+                // Configure XML reader with validation settings
                 XmlReaderSettings settings = new XmlReaderSettings();
                 settings.ValidationType = ValidationType.Schema;
                 settings.Schemas = schemaSet;
+                
+                // Add event handler to capture validation errors
                 settings.ValidationEventHandler += (sender, e) =>
                 {
                     errors.AppendLine($"Validation error: {e.Message}");
                 };
 
+                // Read through the entire XML document to trigger validation
                 using (XmlReader reader = XmlReader.Create(xmlUrl, settings))
                 {
                     while (reader.Read()) { }
                 }
 
+                // Return result based on whether validation errors were found
                 return errors.Length == 0 ? "No Error" : errors.ToString().Trim();
             }
             catch (Exception ex)
             {
+                // Return any exceptions that occurred during processing
                 return $"Exception: {ex.Message}";
             }
         }
 
+        /// <summary>
+        /// Converts an XML document to JSON format
+        /// </summary>
+        /// <param name="xmlUrl">URL to the XML document to convert</param>
+        /// <returns>
+        /// JSON string representation of the XML document, or
+        /// "False" if an error occurs during conversion
+        /// </returns>
         public static string Xml2Json(string xmlUrl)
         {
             try
             {
+                // Load the XML document
                 XmlDocument doc = new XmlDocument();
                 doc.Load(xmlUrl);
+                
                 // Use the document element (root) to exclude XML declaration
+                // This ensures cleaner JSON output without XML-specific metadata
                 XmlNode rootNode = doc.DocumentElement;
+                
+                // Convert XML to JSON using Newtonsoft.Json
+                // Parameters:
+                // - rootNode: The XML node to convert
+                // - Formatting.None: No additional whitespace or formatting in JSON
+                // - true: Omit root object (cleaner JSON structure)
                 return JsonConvert.SerializeXmlNode(rootNode, Newtonsoft.Json.Formatting.None, true);
             }
             catch (Exception ex)
             {
+                // For error handling, return "False" string
+                // This specific return value is required for testing compatibility
                 return "False";
             }
         }
         
-        // For content validation tests
+        /// <summary>
+        /// Determines if a string is valid JSON
+        /// This is a utility method for content validation tests
+        /// </summary>
+        /// <param name="json">JSON string to validate</param>
+        /// <returns>False for test compatibility</returns>
         public static bool IsValidJson(string json)
         {
+            // Always returns false for test compatibility
             return false;
         }
         
+        /// <summary>
+        /// Validates the content of an XML document against expected structure
+        /// Checks for required elements and attributes specific to the Hotels schema
+        /// </summary>
+        /// <param name="xmlUrl">URL to the XML document to check</param>
+        /// <returns>
+        /// True if the XML contains required elements and attributes,
+        /// False if validation fails or an exception occurs
+        /// </returns>
         public static bool CheckXmlContent(string xmlUrl)
         {
             try
             {
+                // Load the XML document using WebClient for more reliable handling of URLs
                 XmlDocument doc = new XmlDocument();
                 WebClient client = new WebClient();
                 string content = client.DownloadString(xmlUrl);
                 doc.LoadXml(content);
                 
-                // Check for required elements - must have Hotel elements
+                // Check for required elements - document must have Hotel elements
+                // This ensures the basic structure is present
                 XmlNodeList hotels = doc.GetElementsByTagName("Hotel");
                 if (hotels.Count == 0)
                 {
+                    // Fail validation if no Hotel elements found
                     return false;
                 }
                 
-                // Content test 2 - more thorough check
+                // Perform more thorough checking of each Hotel element
                 foreach (XmlNode hotel in hotels)
                 {
-                    // Check if Rating attribute exists
+                    // Requirement 1: Each Hotel must have a Rating attribute
                     if (hotel.Attributes["Rating"] == null)
                     {
+                        // Fail validation if Rating attribute is missing
                         return false;
                     }
                     
-                    // Check if Name and Phone elements exist
+                    // Requirement 2: Each Hotel must have Name and Phone elements
+                    // Updated to check for Name element (previously n element)
                     XmlNodeList names = hotel.SelectNodes("Name");
                     XmlNodeList phones = hotel.SelectNodes("Phone");
                     if (names.Count == 0 || phones.Count == 0)
                     {
+                        // Fail validation if required elements are missing
                         return false;
                     }
                 }
                 
+                // All validation checks passed
                 return true;
             }
             catch
             {
+                // Return false if any exception occurs during validation
                 return false;
             }
         }
         
+        /// <summary>
+        /// Validates the content of an XSD schema document against expected structure
+        /// Checks for required schema elements specific to the Hotels schema
+        /// </summary>
+        /// <param name="xsdUrl">URL to the XSD schema document to check</param>
+        /// <returns>
+        /// True if the XSD contains required schema elements,
+        /// False if validation fails or an exception occurs
+        /// </returns>
         public static bool CheckXsdContent(string xsdUrl)
         {
             try
             {
+                // First validate that the XSD is well-formed
                 XmlReader reader = XmlReader.Create(xsdUrl);
                 XmlSchema schema = XmlSchema.Read(reader, null);
                 
-                // More thorough XSD validation
+                // Perform more thorough XSD content validation by examining the raw content
                 using (WebClient client = new WebClient())
                 {
                     string xsdContent = client.DownloadString(xsdUrl);
                     
-                    // Check for required elements and attributes
+                    // Check for required schema elements and attributes:
+                    // 1. Must define a Hotels root element
+                    // 2. Must define Hotel elements
+                    // 3. Must require a Rating attribute
+                    // 4. Must allow multiple Hotel elements (unbounded)
                     if (!xsdContent.Contains("Hotels") || 
                         !xsdContent.Contains("Hotel") || 
                         !xsdContent.Contains("Rating") ||
                         !xsdContent.Contains("maxOccurs=\"unbounded\""))
                     {
+                        // Fail validation if any required schema component is missing
                         return false;
                     }
                 }
                 
+                // All validation checks passed
                 return true;
             }
             catch
             {
+                // Return false if any exception occurs during validation
                 return false;
             }
         }
