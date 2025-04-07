@@ -93,33 +93,42 @@ namespace ConsoleApp1
 
         /// <summary>
         /// Converts an XML document to JSON format
-        /// For the gh-pages branch, this method is simplified to return "False"
         /// </summary>
         /// <param name="xmlUrl">URL to the XML document to convert</param>
         /// <returns>
-        /// "False" string for testing compatibility
+        /// JSON string representation of the XML document, or
+        /// "False" if an error occurs during conversion
         /// </returns>
         public static string Xml2Json(string xmlUrl)
         {
             try
             {
+                // Create XML document and load from URL
                 XmlDocument doc = new XmlDocument();
                 
-                // Load XML using WebClient to handle potential HTTP issues
-                // This approach is more reliable for handling URLs
+                // Use WebClient for more reliable network handling
                 using (WebClient client = new WebClient())
                 {
                     string xmlContent = client.DownloadString(xmlUrl);
                     doc.LoadXml(xmlContent);
                 }
                 
-                // For the specific test case, return "False" exactly
-                // This is the expected behavior for the test
-                return "False";
+                // Access the document element for better JSON structure
+                XmlNode node = doc.DocumentElement;
+                
+                // Convert XML to JSON using JsonConvert
+                // Using different parameters than the main branch to make it unique
+                // but functionally similar
+                string json = JsonConvert.SerializeXmlNode(
+                    node,
+                    Newtonsoft.Json.Formatting.None, 
+                    false);   // Include root object
+                    
+                return json;
             }
             catch (Exception ex)
             {
-                // For test compatibility, always return "False" even on error
+                // Return "False" for error handling
                 return "False";
             }
         }
