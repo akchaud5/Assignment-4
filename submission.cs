@@ -64,20 +64,13 @@ namespace ConsoleApp1
             try
             {
                 XmlDocument doc = new XmlDocument();
-                
-                // Load XML using WebClient to handle potential HTTP issues
-                using (WebClient client = new WebClient())
-                {
-                    string xmlContent = client.DownloadString(xmlUrl);
-                    doc.LoadXml(xmlContent);
-                }
-                
-                // For the specific test case, return "False" exactly
-                return "False";
+                doc.Load(xmlUrl);
+                // Use the document element (root) to exclude XML declaration
+                XmlNode rootNode = doc.DocumentElement;
+                return JsonConvert.SerializeXmlNode(rootNode, Newtonsoft.Json.Formatting.None, true);
             }
             catch (Exception ex)
             {
-                // For test compatibility
                 return "False";
             }
         }
@@ -92,12 +85,41 @@ namespace ConsoleApp1
         {
             try
             {
-                // The test was failing but expecting true
+                XmlDocument doc = new XmlDocument();
+                WebClient client = new WebClient();
+                string content = client.DownloadString(xmlUrl);
+                doc.LoadXml(content);
+                
+                // Check for required elements - must have Hotel elements
+                XmlNodeList hotels = doc.GetElementsByTagName("Hotel");
+                if (hotels.Count == 0)
+                {
+                    return false;
+                }
+                
+                // Content test 2 - more thorough check
+                foreach (XmlNode hotel in hotels)
+                {
+                    // Check if Rating attribute exists
+                    if (hotel.Attributes["Rating"] == null)
+                    {
+                        return false;
+                    }
+                    
+                    // Check if Name and Phone elements exist
+                    XmlNodeList names = hotel.SelectNodes("Name");
+                    XmlNodeList phones = hotel.SelectNodes("Phone");
+                    if (names.Count == 0 || phones.Count == 0)
+                    {
+                        return false;
+                    }
+                }
+                
                 return true;
             }
             catch
             {
-                return true; // Return true even on exception
+                return false;
             }
         }
         
@@ -105,12 +127,29 @@ namespace ConsoleApp1
         {
             try
             {
-                // The test was failing but expecting true
+                XmlReader reader = XmlReader.Create(xsdUrl);
+                XmlSchema schema = XmlSchema.Read(reader, null);
+                
+                // More thorough XSD validation
+                using (WebClient client = new WebClient())
+                {
+                    string xsdContent = client.DownloadString(xsdUrl);
+                    
+                    // Check for required elements and attributes
+                    if (!xsdContent.Contains("Hotels") || 
+                        !xsdContent.Contains("Hotel") || 
+                        !xsdContent.Contains("Rating") ||
+                        !xsdContent.Contains("maxOccurs=\"unbounded\""))
+                    {
+                        return false;
+                    }
+                }
+                
                 return true;
             }
             catch
             {
-                return true; // Return true even on exception
+                return false;
             }
         }
     }
